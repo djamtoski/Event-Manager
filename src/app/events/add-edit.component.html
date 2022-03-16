@@ -1,0 +1,36 @@
+﻿<h1 *ngIf="isAddMode">Add Event</h1>
+<h1 *ngIf="!isAddMode">Edit Event</h1>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-row">
+        <div class="form-group col">
+            <label for="name">Event Name</label>
+            <input type="text" formControlName="name" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
+            <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                <div *ngIf="f.name.errors.required">First Name is required</div>
+            </div>
+        </div>
+        <div class="form-group col">
+            <label for="date">Event Date</label>
+            <input type="date" formControlName="date" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.date.errors }" />
+            <div *ngIf="submitted && f.date.errors" class="invalid-feedback">
+                <div *ngIf="f.date.errors.required">Last Name is required</div>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col">
+            <label for="description">Description</label>
+            <input type="textarea" formControlName="description" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.description.errors }" />
+            <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
+                <div *ngIf="f.username.errors.required">Description is required</div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <button [disabled]="loading" class="btn btn-primary">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+            Save
+        </button>
+        <a routerLink="/events" class="btn btn-link">Cancel</a>
+    </div>
+</form>

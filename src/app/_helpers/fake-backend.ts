@@ -45,7 +45,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             const user = users.find(x => x.username === username && x.password === password);
             if (!user) return error('Username or password is incorrect');
             return ok({
-                ...basicDetails(user),
+                ...basicUserDetails(user),
                 token: 'fake-jwt-token'
             })
         }
@@ -78,14 +78,14 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
         function getEvents() {
             if (!isLoggedIn()) return unauthorized();
-            return ok(events.map(x => basicDetails(x)));
+            return ok(events.map(x => basicEventDetails(x)));
         }
 
         function getEventById() {
             if (!isLoggedIn()) return unauthorized();
 
             const event = events.find(x => x.id === idFromUrl());
-            return ok(basicDetails(event));
+            return ok(basicEventDetails(event));
         }
 
         function updateEvent() {
@@ -126,10 +126,15 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                 .pipe(materialize(), delay(500), dematerialize());
         }
 
-        function basicDetails(event) {
+        function basicEventDetails(event) {
             const { id, name, description , date } = event;
             return { id, name, description, date };
         }
+
+        function basicUserDetails(user) {
+          const { id, username, firstName, lastName } = user;
+          return { id, username, firstName, lastName };
+      }
 
         function isLoggedIn() {
             return headers.get('Authorization') === 'Bearer fake-jwt-token';

@@ -113,12 +113,12 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
         function ok(body?) {
             return of(new HttpResponse({ status: 200, body }))
-                .pipe(delay(500)); // delay observable to simulate server api call
+                .pipe(delay(1000)); // delay observable to simulate server api call
         }
 
         function error(message) {
             return throwError({ error: { message } })
-                .pipe(materialize(), delay(500), dematerialize()); // call materialize and dematerialize to ensure delay even if an error is thrown (https://github.com/Reactive-Extensions/RxJS/issues/648);
+                .pipe(materialize(), delay(2000), dematerialize()); // call materialize and dematerialize to ensure delay even if an error is thrown (https://github.com/Reactive-Extensions/RxJS/issues/648);
         }
 
         function unauthorized() {
